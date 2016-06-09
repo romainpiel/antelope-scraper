@@ -25,8 +25,19 @@ htmlContentToEvent html =
       
 htmlToEvent :: Element -> Event
 htmlToEvent html =
-  let title = "a"
-  in Event title "" "" ""
+  Event (getName html) (getDistance html) "" ""
+
+getName :: Element -> String
+getName html =
+  let h3:_  = findElements (unqual "h3") $ html
+      a:_   = findElements (unqual "a") $ h3
+  in strContent a
+
+getDistance :: Element -> String
+getDistance html =
+  let dl:_ = findElements (unqual "dl") $ html
+      li:_ = findElements (unqual "li") $ dl
+  in strContent li
       
 data Event = Event {
   name :: String, 
