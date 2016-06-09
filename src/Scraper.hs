@@ -19,7 +19,8 @@ findEventsHtml xmlFile = do
 
 htmlContentToEvent :: String -> Event
 htmlContentToEvent html =
-  case parseXMLDoc html of
+  let body = "<body>" ++ html ++ "</body>"
+  in case parseXMLDoc body of
     Nothing   -> error "Failed to parse xml"
     Just doc  -> htmlToEvent doc
       
