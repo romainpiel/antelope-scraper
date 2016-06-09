@@ -12,9 +12,9 @@ findEventsHtml xmlFile = do
     Just doc  -> 
       let xmlEvents        = findElements (unqual "event") $ doc
           cdataContainers  = map elContent xmlEvents
-          cdatas            = concatMap onlyText cdataContainers
+          cdatas           = concatMap onlyText cdataContainers
           cdataContents    = map cdData cdatas
-          events            = map htmlContentToEvent cdataContents
+          events           = map htmlContentToEvent cdataContents
       in return events
 
 htmlContentToEvent :: String -> Event
