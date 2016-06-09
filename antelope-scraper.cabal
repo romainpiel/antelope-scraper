@@ -1,29 +1,37 @@
-Name:                antelope-heroku
+Name:                antelope-scraper
 Version:             0.1
 Synopsis:            Project Synopsis Here
 Description:         Project Description Here
 License:             AllRightsReserved
-Author:              Author
-Maintainer:          maintainer@example.com
+Author:              Romain Piel
+Maintainer:          romain.piel@gmail.com
 Stability:           Experimental
 Category:            Web
 Build-type:          Simple
 Cabal-version:       >=1.2
 
-Executable antelope-heroku
+executable antelope-scraper
   hs-source-dirs: src
-  main-is: Main.hs
+  main-is: Scraper.hs
 
   Build-depends:
     base                      >= 4     && < 5,
     bytestring                >= 0.9.1 && < 0.11,
     MonadCatchIO-transformers >= 0.2.1 && < 0.4,
     mtl                       >= 2     && < 3,
-    snap-core                 >= 0.9   && < 0.10,
-    snap-server               >= 0.9   && < 0.10
+    xml                       >= 1.2   && < 1.3.15
 
   if impl(ghc >= 6.12.0)
     ghc-options: -threaded -Wall -fwarn-tabs -funbox-strict-fields -O2
                  -fno-warn-unused-do-bind
   else
     ghc-options: -threaded -Wall -fwarn-tabs -funbox-strict-fields -O2
+
+test-suite tests
+  ghc-options:         -Wall
+  type:                exitcode-stdio-1.0
+  main-is:             Tests.hs
+  hs-source-dirs:      tests src
+  build-depends:       base,
+                       hspec >= 2.2 && < 2.3
+  default-language:    Haskell2010
