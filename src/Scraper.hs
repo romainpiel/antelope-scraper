@@ -11,23 +11,29 @@ findEventsHtml xmlFile = do
   case parseXMLDoc xmlFile of
     Nothing   -> error "Failed to parse xml"
     Just doc  -> 
-      let xmlEvents        = findElements (unqual "event") $ doc
-          cdataContainers  = map elContent xmlEvents
-          cdatas           = concatMap onlyText cdataContainers
-          cdataContents    = map cdData cdatas
-          events           = map htmlContentToEvent cdataContents
+      let days   = findElements (unqual "day") $ doc
+          events = concatMap dayToEvents days
       in return events
 
-htmlContentToEvent :: String -> Event
-htmlContentToEvent html =
-  let body = "<body>" ++ html ++ "</body>"
+dayToEvents :: Element -> [Event]
+dayToEvents day =
+  let firstDate:_      = findElements (unqual "date") $ day
+      firstDateContent = strContent firstDate
+      xmlEvents        = findElements (unqual "event") $ day
+      cdataContainers  = map elContent xmlEvents
+      cdatas           = concatMap onlyText cdataContainers
+      cdataContents    = map cdData cdatas
+      rawEvents        = map (\cdata -> RawEvent firstDateContent cdata) cdataContents
+      events           = map htmlContentToEvent rawEvents
+  in events
+
+htmlContentToEvent :: RawEvent -> Event
+htmlContentToEvent rawEvent =
+  let body  = "<body>" ++ (rcdata rawEvent) ++ "</body>"
   in case parseXMLDoc body of
     Nothing   -> error "Failed to parse xml"
-    Just doc  -> htmlToEvent doc
-      
-htmlToEvent :: Element -> Event
-htmlToEvent html =
-  Event (getName html) (getDistance html) (getLocation html) (getUrl html)
+    Just html  -> 
+      Event (rdate rawEvent) (getName html) (getDistance html) (getLocation html) (getUrl html)
 
 getName :: Element -> String
 getName html =
@@ -55,8 +61,14 @@ getUrl html =
                 Just a  -> fromJust (findAttr (unqual "href") $ a)
                 Nothing -> ""
   in href
-      
+
+data RawEvent = RawEvent {
+  rdate :: String,
+  rcdata :: String
+} deriving (Show)
+
 data Event = Event {
+  date :: String,
   name :: String, 
   distance :: String, 
   location :: String, 
