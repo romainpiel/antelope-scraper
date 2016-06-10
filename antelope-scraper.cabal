@@ -12,7 +12,7 @@ Cabal-version:       >=1.2
 
 executable antelope-scraper
   hs-source-dirs: src
-  main-is: Scraper.hs
+  main-is: Main.hs
 
   Build-depends:
     base                      >= 4     && < 5,

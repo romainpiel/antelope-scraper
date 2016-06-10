@@ -1,11 +1,8 @@
-module Scraper where
-
+module Parser where
+  
 import Text.XML.Light
 import Data.Maybe
-
-main :: IO ()
-main = putStrLn "hello"
-
+  
 findEventsHtml :: String -> IO [Event]
 findEventsHtml xmlFile = do
   case parseXMLDoc xmlFile of
