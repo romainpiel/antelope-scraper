@@ -1,10 +1,12 @@
 module Main where
 
 import Parser
+import Sender
 
 -- temporary for testing
--- main :: IO ()
-main :: IO [Event]
+main :: IO ()
+-- main :: IO String
 main = do
-  f <- readFile "tests/london.xml"
-  Parser.findEventsHtml f
+  html <- readFile "tests/london.xml"
+  events <- Parser.findEventsHtml html
+  Sender.eventsToJson events
