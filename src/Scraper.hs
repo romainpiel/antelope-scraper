@@ -1,6 +1,7 @@
 module Scraper where
 
 import Text.XML.Light
+import Data.Maybe
 
 main :: IO ()
 main = putStrLn "hello"
@@ -26,7 +27,7 @@ htmlContentToEvent html =
       
 htmlToEvent :: Element -> Event
 htmlToEvent html =
-  Event (getName html) (getDistance html) "" ""
+  Event (getName html) (getDistance html) (getLocation html) (getUrl html)
 
 getName :: Element -> String
 getName html =
@@ -39,6 +40,21 @@ getDistance html =
   let dl:_ = findElements (unqual "dl") $ html
       li:_ = findElements (unqual "li") $ dl
   in strContent li
+
+getLocation :: Element -> String
+getLocation html =
+  let ul:_ = findElements (unqual "ul") $ html
+      li:_ = findElements (unqual "li") $ ul
+  in strContent li
+
+getUrl :: Element -> String
+getUrl html =
+  let _:dl:_ = findElements (unqual "dl") $ html
+      maybeA = findElement (unqual "a") $ dl
+      href   = case maybeA of
+                Just a  -> fromJust (findAttr (unqual "href") $ a)
+                Nothing -> ""
+  in href
       
 data Event = Event {
   name :: String, 
