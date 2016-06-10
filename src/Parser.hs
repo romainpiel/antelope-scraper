@@ -1,5 +1,6 @@
 module Parser where
   
+import Types
 import Text.XML.Light
 import Data.Maybe
   
@@ -58,16 +59,3 @@ getUrl html =
                 Just a  -> fromJust (findAttr (unqual "href") $ a)
                 Nothing -> ""
   in href
-
-data RawEvent = RawEvent {
-  rdate :: String,
-  rcdata :: String
-} deriving (Show)
-
-data Event = Event {
-  date :: String,
-  name :: String, 
-  distance :: String, 
-  location :: String, 
-  url :: String
-} deriving (Show)
