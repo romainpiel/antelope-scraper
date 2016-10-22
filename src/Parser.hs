@@ -32,7 +32,7 @@ htmlContentToEvent rawEvent =
   in case parseXMLDoc body of
     Nothing   -> error "Failed to parse xml"
     Just html  -> 
-      Event (rdate rawEvent) (getName html) (getDistance html) (getLocation html) (getUrl html)
+      Event (rdate rawEvent) (getName html) (getDistance html) (getShape html) (getTerrain html) (getLocation html) (getUrl html)
 
 getName :: Element -> String
 getName html =
@@ -44,6 +44,18 @@ getDistance :: Element -> String
 getDistance html =
   let dl:_ = findElements (unqual "dl") $ html
       li:_ = findElements (unqual "li") $ dl
+  in strContent li
+
+getShape :: Element -> String
+getShape html =
+  let dl:_   = findElements (unqual "dl") $ html
+      _:li:_ = findElements (unqual "li") $ dl
+  in strContent li
+
+getTerrain :: Element -> String
+getTerrain html =
+  let dl:_     = findElements (unqual "dl") $ html
+      _:_:li:_ = findElements (unqual "li") $ dl
   in strContent li
 
 getLocation :: Element -> String
