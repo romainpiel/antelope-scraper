@@ -31,7 +31,7 @@ executable antelope-scraper
 test-suite tests
   ghc-options:         -Wall
   type:                exitcode-stdio-1.0
-  main-is:             Tests.hs
+  main-is:             Test-Parser.hs
   hs-source-dirs:      tests src
   build-depends:       base,
                        hspec >= 2.2 && < 2.3
