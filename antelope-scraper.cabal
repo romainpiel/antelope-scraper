@@ -8,11 +8,13 @@ Maintainer:          romain.piel@gmail.com
 Stability:           Experimental
 Category:            Web
 Build-type:          Simple
-Cabal-version:       >=1.2
+Cabal-version:       >=1.10
 
 executable antelope-scraper
   hs-source-dirs: src
   main-is: Main.hs
+  default-language:   Haskell2010
+  default-extensions: OverloadedStrings
 
   Build-depends:
     base                      >= 4     && < 5,
