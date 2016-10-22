@@ -8,4 +8,5 @@ main :: IO ()
 main = do
   html <- Source.getData
   events <- Parser.findEventsHtml html
+  Firebase.cleanup
   Firebase.send events
