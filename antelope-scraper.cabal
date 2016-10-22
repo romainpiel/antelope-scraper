@@ -20,8 +20,10 @@ executable antelope-scraper
     MonadCatchIO-transformers >= 0.2.1 && < 0.4,
     mtl                       >= 2     && < 3,
     xml                       >= 1.2   && < 1.3.15,
-    aeson                     >= 0.11  && < 0.12
-
+    aeson                     >= 0.11  && < 0.12,
+    wreq,
+    lens
+    
   if impl(ghc >= 6.12.0)
     ghc-options: -threaded -Wall -fwarn-tabs -funbox-strict-fields -O2
                  -fno-warn-unused-do-bind

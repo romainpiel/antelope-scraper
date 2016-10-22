@@ -1,7 +1,7 @@
 module Main where
 
 import Parser
-import Sender
+import Firebase
 
 -- temporary for testing
 main :: IO ()
@@ -9,4 +9,4 @@ main :: IO ()
 main = do
   html <- readFile "tests/london.xml"
   events <- Parser.findEventsHtml html
-  Sender.eventsToJson events
+  Firebase.send events
