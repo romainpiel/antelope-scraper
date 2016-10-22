@@ -3,8 +3,9 @@ module Parser where
 import Types
 import Text.XML.Light
 import Data.Maybe
+import Data.ByteString.Lazy (ByteString)
   
-findEventsHtml :: String -> IO [Event]
+findEventsHtml :: ByteString -> IO [Event]
 findEventsHtml xmlFile = do
   case parseXMLDoc xmlFile of
     Nothing   -> error "Failed to parse xml"
